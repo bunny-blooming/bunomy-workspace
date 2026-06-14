@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunomy Workstation - 키즈노트 에이전트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 세이지 그린 테마 */
+        .bg-sage { background-color: #E8F0ED; } 
+        .text-sage-dark { color: #2D4A3E; }
+        .btn-sage { background-color: #3B6653; }
+        .btn-sage:hover { background-color: #2D4A3E; }
+        
+        /* 로고 이미지 크기 조정 */
+        .logo-img { width: 60px; height: 60px; object-fit: contain; }
+    </style>
+</head>
+<body class="bg-sage min-h-screen font-sans flex flex-col justify-between">
+
+    <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <img src="logo.png" alt="Bunomy Logo" class="logo-img">
+            <span class="text-2xl font-bold text-sage-dark tracking-wide">Bunomy</span>
+        </div>
+        <div class="flex items-center space-x-2 text-sm text-gray-600">
+            <span class="w-2 h-2 rounded-full bg-green-500 inline-block animate-pulse"></span>
+            <span>에이전트 연결됨</span>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto my-auto p-6 w-full">
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center space-y-8">
+            <div class="space-y-2">
+                <h1 class="text-2xl font-bold text-gray-800">가정통신문 AI 요약 워크스페이스</h1>
+                <p class="text-gray-500 text-sm">키즈노트의 가정통신문을 분석하여 회의록 양식으로 자동 생성합니다.</p>
+            </div>
+
+            <div class="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+                
+                <button id="start-btn" onclick="runAgent()" class="btn-sage text-white font-semibold px-8 py-4 rounded-xl shadow-md transform active:scale-95 transition-all text-lg w-full sm:w-auto">
+                    📝 키즈노트 회의록 자동 작성 시작
+                </button>
+
+                <div id="loading-status" class="hidden flex flex-col items-center space-y-3">
+                    <svg class="animate-spin h-10 w-10 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p class="text-sage-dark font-medium animate-pulse">토끼가 문서를 작성 중입니다... 🐇</p>
+                </div>
+
+                <div id="download-area" class="hidden flex flex-col items-center space-y-4 w-full">
+                    <div class="bg-emerald-50 text-emerald-800 p-3 rounded-lg text-sm font-medium w-full">
+                        🎉 요약 문서 생성이 완료되었습니다!
+                    </div>
+                    <a id="download-link" href="#" download class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl shadow-md text-lg flex items-center space-x-2 w-full justify-center">
+                        💾 요약본 Word 파일 다운로드 (.docx)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-6 text-xs text-gray-400">
+        © 2026 Bunomy. All rights reserved.
+    </footer>
+
+    <script>
+        const AGENT_API_URL = "https://your-agent-ai-server.com/run-automation";
+
+        async function runAgent() {
+            const startBtn = document.getElementById('start-btn');
+            const loadingStatus = document.getElementById('loading-status');
+            const downloadArea = document.getElementById('download-area');
+
+            startBtn.classList.add('hidden');
+            loadingStatus.classList.remove('hidden');
+
+            try {
+                const response = await fetch(AGENT_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) throw new Error("에이전트 구동 실패");
+
+                const blob = await response.blob();
+                const fileUrl = URL.createObjectURL(blob);
+
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = fileUrl;
+                downloadLink.download = `키즈노트_요약본_${new Date().toISOString().slice(0,10)}.docx`;
+
+                loadingStatus.classList.add('hidden');
+                downloadArea.classList.remove('hidden');
+
+            } catch (error) {
+                alert("에이전트 연결에 실패했습니다. 서버 상태를 확인해주세요.");
+                loadingStatus.classList.add('hidden');
+                startBtn.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
