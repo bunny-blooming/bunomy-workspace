@@ -21,7 +21,7 @@
     <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-3">
             <img src="logo.png" alt="Bunomy Logo" class="logo-img">
-            <span class="text-2xl font-bold text-sage-dark tracking-wide">Bunomy</span>
+            <span class="text-2xl font-bold text-sage-dark tracking-wide">Bunomy <span class="text-sm font-normal text-gray-500">for Teacher</span></span>
         </div>
         <div class="flex items-center space-x-2 text-sm text-gray-600">
             <span class="w-2 h-2 rounded-full bg-green-500 inline-block animate-pulse"></span>
@@ -67,7 +67,8 @@
     </footer>
 
     <script>
-        const AGENT_API_URL = "https://your-agent-ai-server.com/run-automation";
+        // 로컬 서버 주소
+        const AGENT_API_URL = "http://127.0.0.1:8000/run-automation";
 
         async function runAgent() {
             const startBtn = document.getElementById('start-btn');
@@ -79,8 +80,7 @@
 
             try {
                 const response = await fetch(AGENT_API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
+                    method: 'POST'
                 });
 
                 if (!response.ok) throw new Error("에이전트 구동 실패");
@@ -96,7 +96,7 @@
                 downloadArea.classList.remove('hidden');
 
             } catch (error) {
-                alert("에이전트 연결에 실패했습니다. 서버 상태를 확인해주세요.");
+                alert("연결 실패! 서버(python server.py)가 켜져 있는지 확인하세요.");
                 loadingStatus.classList.add('hidden');
                 startBtn.classList.remove('hidden');
             }
