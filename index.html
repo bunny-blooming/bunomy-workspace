@@ -15,16 +15,16 @@
 </head>
 <body class="bg-sage min-h-screen font-sans flex flex-col justify-between">
 
-    <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center space-x-3">
-            <img src="/static/logo.png" alt="Bunomy Logo" class="logo-img">
-            <span class="text-2xl font-bold text-sage-dark tracking-wide">Bunomy <span class="text-sm font-normal text-gray-500">for Teacher</span></span>
-        </div>
-        <div class="flex items-center space-x-2 text-sm text-gray-600">
-            <span class="w-2 h-2 rounded-full bg-green-500 inline-block animate-pulse"></span>
-            <span>에이전트 연결됨</span>
-        </div>
+   <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+        <img src="logo.png" alt="Bunnyeap Logo" class="logo-img">
+        <span class="text-2xl font-bold text-sage-dark tracking-wide">Bunnyeap <span class="text-sm font-normal text-gray-500">for Teacher</span></span>
+    </div>
     </header>
+
+<footer class="text-center py-6 text-xs text-gray-400">
+    © 2026 Bunnyeap. All rights reserved.
+</footer>
 
     <main class="max-w-2xl mx-auto my-auto p-6 w-full">
         <div class="bg-white rounded-2xl shadow-xl p-8 text-center space-y-8">
@@ -64,7 +64,7 @@
     </footer>
 
     <script>
-        // ✅ 상대경로로 변경 — GitHub Pages 없이 server.py가 직접 서빙
+        // ⚠️ ngrok 재시작 시 이 URL을 새 URL로 교체 후 GitHub에 push
         const AGENT_API_URL = "https://slingshot-legacy-nastiness.ngrok-free.dev/run-automation";
 
         async function runAgent() {
@@ -77,7 +77,8 @@
 
             try {
                 const response = await fetch(AGENT_API_URL, {
-                    method: 'POST'
+                    method: 'POST',
+                    headers: { 'ngrok-skip-browser-warning': '1' }
                 });
 
                 if (!response.ok) throw new Error("에이전트 구동 실패");
@@ -93,7 +94,7 @@
                 downloadArea.classList.remove('hidden');
 
             } catch (error) {
-                alert("연결 실패! 서버(python server.py)가 켜져 ㄴ있는지 확인하세요.");
+                alert("연결 실패! server.py와 ngrok이 실행 중인지 확인하세요.");
                 loadingStatus.classList.add('hidden');
                 startBtn.classList.remove('hidden');
             }
