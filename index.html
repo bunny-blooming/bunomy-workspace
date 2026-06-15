@@ -6,13 +6,10 @@
     <title>Bunomy Workstation - 키즈노트 에이전트</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 세이지 그린 테마 */
         .bg-sage { background-color: #E8F0ED; } 
         .text-sage-dark { color: #2D4A3E; }
         .btn-sage { background-color: #3B6653; }
         .btn-sage:hover { background-color: #2D4A3E; }
-        
-        /* 로고 이미지 크기 조정 */
         .logo-img { width: 60px; height: 60px; object-fit: contain; }
     </style>
 </head>
@@ -20,7 +17,7 @@
 
     <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-3">
-            <img src="logo.png" alt="Bunomy Logo" class="logo-img">
+            <img src="/static/logo.png" alt="Bunomy Logo" class="logo-img">
             <span class="text-2xl font-bold text-sage-dark tracking-wide">Bunomy <span class="text-sm font-normal text-gray-500">for Teacher</span></span>
         </div>
         <div class="flex items-center space-x-2 text-sm text-gray-600">
@@ -67,8 +64,8 @@
     </footer>
 
     <script>
-        // 로컬 서버 주소
-        const AGENT_API_URL = "http://127.0.0.1:8000/run-automation";
+        // ✅ 상대경로로 변경 — GitHub Pages 없이 server.py가 직접 서빙
+        const AGENT_API_URL = "/run-automation";
 
         async function runAgent() {
             const startBtn = document.getElementById('start-btn');
@@ -96,7 +93,7 @@
                 downloadArea.classList.remove('hidden');
 
             } catch (error) {
-                alert("연결 실패! 서버(python server.py)가 켜져 있는지 확인하세요.");
+                alert("연결 실패! 서버(python server.py)가 켜져 ㄴ있는지 확인하세요.");
                 loadingStatus.classList.add('hidden');
                 startBtn.classList.remove('hidden');
             }
